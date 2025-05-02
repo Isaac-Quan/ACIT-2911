@@ -1,6 +1,6 @@
 /* day text row */
 tr:not(:first-child){
-    background-color: aqua;
+    background-color: powderblue;
     width: 10px;
     height: 10px;
 }
