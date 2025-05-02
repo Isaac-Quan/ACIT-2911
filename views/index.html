@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/css/styles.css">
+    <script src="public/js/script.js"></script>
+</head>
+
+<body>
+    <table>
+        <tr id="days">
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thur</th>
+            <th>Fri</th>
+            <th>Sat</th>
+        </tr>
+
+        <tr>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+        </tr>
+        <tr>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+        </tr>
+        <tr>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+        </tr>
+        <tr>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+        </tr>
+        <tr>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+            <td><button>...</button></td>
+        </tr>
+    
+    
+    </table>
+
+
+    <!-- Pop-up Modal -->
+    <div id="eventModal">
+        <div id="modalHeader">
+            <span>Add to Calendar</span>
+            <span onclick="closeModal()" class="close-btn">✖</span>
+        </div>
+        <div class="modal-content">
+            <label for="eventInput">Event:</label>
+            <input type="text" id="eventInput">
+
+            <label for="colorPicker">Pick a Color:</label>
+            <input type="color" id="colorPicker">
+
+            <label for="opacitySlider">Transparency:</label>
+            <input type="range" id="opacitySlider" min="0" max="100" value="100">
+
+            <button onclick="saveEvent()">Save</button>
+
+            <!-- Task List -->
+            <h3>Tasks:</h3>
+            <ul id="taskList"></ul>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
