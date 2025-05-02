@@ -166,7 +166,7 @@ function saveEvent() {
     // Calculate correct date from grid
     const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const weekday = weekdays[colIndex]; // Get corresponding weekday name
-    const dateNumber = rowIndex * 7 + colIndex; // Rough approximation
+    const dateNumber = rowIndex + colIndex; // Rough approximation
 
     const timestamp = `${weekday}, ${dateNumber}`; 
 
