@@ -1,7 +1,9 @@
 // GLOBAL EVENT TRACKER (position, color, eventlistener, etc..)
 // VVVVVVVVVVVVVVVVV
-let eventList = {}; 
+let eventList = {};
 let draggedElement = null; // Track dragged task
+
+let currentDate = new Date()
 
 
 // Basic DOM Loader
@@ -10,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Live color updater
     document.getElementById("colorPicker").addEventListener("input", updateCellStyle);
     document.getElementById("opacitySlider").addEventListener("input", updateCellStyle);
-    
+
     // Get clicked cell
     buttons.forEach(button => {
         button.addEventListener("click", () => {
@@ -18,9 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
             showModal(selectedCell);
         });
     });
-    
+
     // Live draggable Modal ( WIP NOT WORKING )
     makeModalDraggable();
+
+    renderCalender()
+    
 });
 
 // ==========
@@ -78,16 +83,23 @@ function updateTaskList(cell) {
     taskList.innerHTML = "";
 
     // Generate a reliable unique identifier for the cell
-    const rowIndex = cell.parentElement.rowIndex;
-    const colIndex = cell.cellIndex;
-    const cellKey = `${rowIndex}-${colIndex}`;
+    // const rowIndex = cell.parentElement.rowIndex;
+    // const colIndex = cell.cellIndex;
+    // const cellKey = `${rowIndex}-${colIndex}`;
 
-    console.log("Updating task list for:", cellKey); // Debugging log
+    // console.log("Updating task list for:", cellKey); // Debugging log
 
-    if (eventList[cellKey] && eventList[cellKey].length > 0) {
-        eventList[cellKey].forEach((taskObj, index) => {
+
+    let yearMonth = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
+
+    let cellDate = parseInt(cell.children[0].innerText)
+
+
+    if (eventList[yearMonth]?.[cellDate] && eventList[yearMonth][cellDate].events.length > 0) {
+        eventList[yearMonth][cellDate].events.forEach((taskObj, index) => {
+
             const listItem = document.createElement("li");
-            listItem.textContent = `${taskObj.text} (${taskObj.timestamp})`;
+            listItem.textContent = `${taskObj.text}`;
 
             // Add delete button
             const deleteBtn = document.createElement("button");
@@ -100,7 +112,11 @@ function updateTaskList(cell) {
 
             // Remove task on click
             deleteBtn.addEventListener("click", () => {
-                eventList[cellKey].splice(index, 1);
+                eventList[yearMonth][cellDate].events.splice(index, 1);
+                cell.lastElementChild.children[index].remove()
+
+                console.log("delete test: ", eventList);
+
                 updateTaskList(cell);
             });
 
@@ -110,6 +126,7 @@ function updateTaskList(cell) {
     } else {
         console.log("No tasks found for:", cellKey);
     }
+
 }
 
 
@@ -155,27 +172,77 @@ function saveEvent() {
 
     const cell = window.selectedCell;
 
+
+
     // Generate unique identifier using row and column index
-    const rowIndex = cell.parentElement.rowIndex;
-    const colIndex = cell.cellIndex;
-    const cellKey = `${rowIndex}-${colIndex}`; 
+    // const rowIndex = cell.parentElement.rowIndex;
+    // const colIndex = cell.cellIndex;
+    // const cellKey = `${rowIndex}-${colIndex}`;
 
     const task = createDraggableTask(eventText);
-    cell.appendChild(task);
+    cell.lastElementChild.appendChild(task);
+
+    
+    const cellDate = parseInt(cell.children[0].innerText);
+    const key = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
+
+    const selectedColor = document.getElementById("colorPicker").value;
+    const selectedOpacity = document.getElementById("opacitySlider").value / 100;
+
+    const convertedColor = hexToRGB(selectedColor)
+
+    const event = {
+        text: eventText
+    }
+
+    // check if year-month exists
+    if (eventList.hasOwnProperty(key)) {
+        // check if date already exists
+        if (eventList[key].hasOwnProperty(cellDate)) {
+            // Handling color change on an already occupied cell
+
+            // eventList[key][cellDate].color !=  `rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`
+            eventList[key][cellDate].events.push(event)
+
+        }
+
+        // yy-mm exists but not date
+        else {
+
+            eventList[key][cellDate] = { color: `rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`,events:[event] }
+
+        }
+    }
+    else {
+        eventList[key] = {
+            [cellDate]: {
+                color: `rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`,
+                events: [event]
+            }
+        }
+
+    }
+
+
+
+
+
+    // ---------------------------------------------------------------------------------------------------------------------
 
     // Calculate correct date from grid
-    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const weekday = weekdays[colIndex]; // Get corresponding weekday name
-    const dateNumber = rowIndex + colIndex; // Rough approximation
+    // const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    // const weekday = weekdays[colIndex]; // Get corresponding weekday name
+    // const dateNumber = rowIndex * 7 + colIndex; // Rough approximation
 
-    const timestamp = `${weekday}, ${dateNumber}`; 
+    // const timestamp = `${weekday}, ${dateNumber}`; 
 
     // Store event in eventList with the new key
-    if (!eventList[cellKey]) eventList[cellKey] = [];
-    eventList[cellKey].push({ text: eventText, element: task, timestamp });
+    // if (!eventList[cellKey]) eventList[cellKey] = [];
+    // eventList[cellKey].push({ text: eventText, element: task, timestamp });
 
     updateCellStyle();
     updateTaskList(cell);
+    console.log("Event added : ", eventList)
 }
 
 
@@ -183,7 +250,7 @@ function saveEvent() {
 // Close Modal
 function closeModal() {
     document.getElementById("eventModal").style.display = "none";
-}    
+}
 
 
 // =============
@@ -193,10 +260,11 @@ function closeModal() {
 // for methods (.push .splice etc..)
 function updateCellStyle() {
     if (!window.selectedCell) return;
-    
+
     // for rgb live update (see dom loader) 
     const selectedColor = document.getElementById("colorPicker").value;
     const selectedOpacity = document.getElementById("opacitySlider").value / 100;
+
 
     // Convert hex color to RGB and apply transparency
     const rgbColor = hexToRGB(selectedColor);
@@ -253,7 +321,7 @@ function dragMove(event) {
     if (!draggedElement) return;
 
     const cell = draggedElement.parentElement;
-    
+
     // Get cursor position relative to the cell
     let newLeft = event.clientX - cell.getBoundingClientRect().left - (draggedElement.offsetWidth / 2);
     let newTop = event.clientY - cell.getBoundingClientRect().top - (draggedElement.offsetHeight / 2);
@@ -277,5 +345,95 @@ function stopDragging() {
 
 
 
+
+
+
+
+const renderCalender = (date) => {
+
+    // Sets current date to input or defaults to current date
+    currentDate = (typeof date === 'undefined') ? new Date() : new Date(date)
+    console.log(currentDate);
+
+    currentDate.setDate(1)
+
+    // if same year-month no change
+    if (date === `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`) return;
+
+    // like mon, tue, wed
+    let startingDay = currentDate.getDay()
+
+    // get the last date of the month ie the 30th
+    let lastDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
+
+
+
+
+    let yearMonth = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
+
+
+    // clears tasks
+    Array.from(document.querySelectorAll(".draggable-task")).forEach((task) => {
+        task.remove()
+    })
+
+
+    let squares = document.getElementsByTagName("td")
+
+    let count = 1
+    squares = Array.from(squares).forEach((square, index) => {
+        // Resets cells
+        square.removeAttribute("class")
+        square.removeAttribute("style")
+
+        // first child should be P 
+        square.firstElementChild.innerText = ""
+
+        // initializes cells 
+        if (index >= startingDay && count <= lastDate) {
+
+            // look up events for this day
+            if (eventList[yearMonth] && eventList[yearMonth][count]) {
+
+                square.style.backgroundColor = eventList[yearMonth][count].color
+
+                eventList[yearMonth][count].events.forEach((task) => {
+                    square.lastElementChild.appendChild(createDraggableTask(task.text))
+                })
+            }
+
+            // any square with the class .date is a correct cell
+            square.classList.add("date")
+            square.firstElementChild.innerText = count
+            count++
+        }
+    })
+
+
+
+    console.log(currentDate, startingDay, lastDate, squares);
+
+    const months = ['January', 'February', 'March', 'April', "May", "June", 'July', 'August', 'September', 'October', 'November', 'December']
+
+
+    let h2 = document.getElementById("month-year")
+
+    h2.innerText = `${months[currentDate.getMonth()]} - ${currentDate.getFullYear()}`
+
+
+
+    console.log("event list", eventList);
+
+}
+
+
+const handleChange = (e) => {
+    let date = e.target.value
+    console.log("Input Date: ", date);
+
+    date += "-1"
+
+    renderCalender(date)
+}
 
 
