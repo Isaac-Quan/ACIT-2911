@@ -10,8 +10,8 @@ let currentDate = new Date()
 document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll("td button");
     // Live color updater
-    document.getElementById("colorPicker").addEventListener("input", updateCellStyle);
-    document.getElementById("opacitySlider").addEventListener("input", updateCellStyle);
+    // document.getElementById("colorPicker").addEventListener("input", updateCellStyle);
+    // document.getElementById("opacitySlider").addEventListener("input", updateCellStyle);
 
     // Get clicked cell
     buttons.forEach(button => {
@@ -124,7 +124,7 @@ function updateTaskList(cell) {
             taskList.appendChild(listItem);
         });
     } else {
-        console.log("No tasks found for:", cellKey);
+        // console.log("No tasks found for:", cellKey); 
     }
 
 }
@@ -172,27 +172,30 @@ function saveEvent() {
 
     const cell = window.selectedCell;
 
+    const selectedColor = document.getElementById("colorPicker").value;
+    const selectedOpacity = document.getElementById("opacitySlider").value / 100;
+    const convertedColor = hexToRGB(selectedColor)
 
+    const color =`rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`
 
     // Generate unique identifier using row and column index
     // const rowIndex = cell.parentElement.rowIndex;
     // const colIndex = cell.cellIndex;
     // const cellKey = `${rowIndex}-${colIndex}`;
 
-    const task = createDraggableTask(eventText);
+    const task = createDraggableTask(eventText,color );
     cell.lastElementChild.appendChild(task);
+
 
     
     const cellDate = parseInt(cell.children[0].innerText);
     const key = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
 
-    const selectedColor = document.getElementById("colorPicker").value;
-    const selectedOpacity = document.getElementById("opacitySlider").value / 100;
 
-    const convertedColor = hexToRGB(selectedColor)
 
     const event = {
-        text: eventText
+        text: eventText,
+        color
     }
 
     // check if year-month exists
@@ -209,14 +212,13 @@ function saveEvent() {
         // yy-mm exists but not date
         else {
 
-            eventList[key][cellDate] = { color: `rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`,events:[event] }
+            eventList[key][cellDate] = {events:[event] }
 
         }
     }
     else {
         eventList[key] = {
             [cellDate]: {
-                color: `rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`,
                 events: [event]
             }
         }
@@ -240,7 +242,7 @@ function saveEvent() {
     // if (!eventList[cellKey]) eventList[cellKey] = [];
     // eventList[cellKey].push({ text: eventText, element: task, timestamp });
 
-    updateCellStyle();
+    // updateCellStyle();
     updateTaskList(cell);
     console.log("Event added : ", eventList)
 }
@@ -290,7 +292,7 @@ function hexToRGB(hex) {
 
 
 // Create Draggable Task
-function createDraggableTask(text) {
+function createDraggableTask(text,color) {
     // border for boundary
     const task = document.createElement("div");
     task.textContent = text;
@@ -299,7 +301,7 @@ function createDraggableTask(text) {
     task.style.left = "5px";
     task.style.top = "5px";
     task.style.cursor = "grab";
-    task.style.background = "rgba(255,255,255,0.7)";
+    task.style.background = color;
     task.style.padding = "2px 4px";
     task.style.borderRadius = "3px";
     task.style.whiteSpace = "nowrap";
@@ -395,10 +397,10 @@ const renderCalender = (date) => {
             // look up events for this day
             if (eventList[yearMonth] && eventList[yearMonth][count]) {
 
-                square.style.backgroundColor = eventList[yearMonth][count].color
+                // square.style.backgroundColor = eventList[yearMonth][count].color
 
                 eventList[yearMonth][count].events.forEach((task) => {
-                    square.lastElementChild.appendChild(createDraggableTask(task.text))
+                    square.lastElementChild.appendChild(createDraggableTask(task.text, task.color))
                 })
             }
 
