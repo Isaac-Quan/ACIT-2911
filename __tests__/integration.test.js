@@ -9,7 +9,7 @@ describe("Integration Testing - Localhost", () => {
         expect(response.status).toBe(200);
     
         // Look for a unique element in home.html
-        expect(response.text).toContain("<h1>Home Page</h1>"); // Adjust based on actual HTML content
+        expect(response.text).toContain("<h1>Home Page</h1>"); // find real html contetn
     });
     
 });

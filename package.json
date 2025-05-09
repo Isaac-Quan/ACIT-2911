@@ -9,16 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Isaac-Quan/ACIT-2911.git"
+    "url": "git+https://github.com/NickSevostiyanov/ACIT-2911"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/Isaac-Quan/ACIT-2911/issues"
+    "url": "https://github.com/NickSevostiyanov/ACIT-2911"
   },
-  "homepage": "https://github.com/Isaac-Quan/ACIT-2911#readme",
+  "homepage": "https://github.com/NickSevostiyanov/ACIT-2911#readme",
   "dependencies": {
     "express": "^5.1.0",
     "express-session": "^1.18.1",

@@ -6,21 +6,17 @@ let currentDate = new Date()
 
 
 // unit-tests
-// export { 
-//     showModal, 
-//     makeModalDraggable, 
-//     updateTaskList, 
-//     saveEvent, 
-//     closeModal, 
-//     updateCellStyle, 
-//     hexToRGB, 
-//     createDraggableTask, 
-//     renderCalender, 
-//     handleChange 
-// };
-
-
-
+export { 
+    showModal, 
+    makeModalDraggable, 
+    updateTaskList, 
+    saveEvent, 
+    closeModal, 
+    updateCellStyle, 
+    hexToRGB, 
+    createDraggableTask, 
+    renderCalender, 
+};
 
 // Basic DOM Loader
 document.addEventListener("DOMContentLoaded", () => {
@@ -28,11 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Live color updater
     // document.getElementById("colorPicker").addEventListener("input", updateCellStyle);
     // document.getElementById("opacitySlider").addEventListener("input", updateCellStyle);
-
+    
     document.getElementById("backgroundColorPicker").addEventListener("input", (event) => {
         document.body.style.backgroundColor = event.target.value;
     });
-
+    
     // get url for header
     const routeDisplay = document.getElementById("routeDisplay");
     if (routeDisplay) {
@@ -46,13 +42,35 @@ document.addEventListener("DOMContentLoaded", () => {
             showModal(selectedCell);
         });
     });
-
+    
     // Live draggable Modal ( WIP NOT WORKING )
     makeModalDraggable();
 
     renderCalender()
     
 });
+
+// ======
+// VITEST EXPORT
+// ======
+if (typeof window !== "undefined") {
+    window.showModal = showModal;
+    window.makeModalDraggable = makeModalDraggable;
+    window.updateTaskList = updateTaskList;
+    window.saveEvent = saveEvent;
+    window.closeModal = closeModal;
+    window.updateCellStyle = updateCellStyle;
+    window.hexToRGB = hexToRGB;
+    window.createDraggableTask = createDraggableTask;
+}
+
+// Export functions for Vitest
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = { 
+        showModal, makeModalDraggable, updateTaskList, saveEvent, 
+        closeModal, updateCellStyle, hexToRGB, createDraggableTask 
+    };
+}
 
 // ==========
 // Show Modal
@@ -382,38 +400,3 @@ const renderCalender = (date) => {
 }
 
 
-// const handleChange = (e) => {
-//     let date = e.target.value
-//     console.log("Input Date: ", date);
-//     date += "-1"
-//     renderCalender(date)
-// }
-
-// function handleChange(event) {  
-//     console.log("Background color changed:", event.target.value);  
-//     document.body.style.backgroundColor = event.target.value;  
-// }
-
-// // ✅ Ensure `handleChange` is available in HTML
-// window.handleChange = handleChange;
-
-
-// ✅ Make functions globally available for the browser
-if (typeof window !== "undefined") {
-    window.showModal = showModal;
-    window.makeModalDraggable = makeModalDraggable;
-    window.updateTaskList = updateTaskList;
-    window.saveEvent = saveEvent;
-    window.closeModal = closeModal;
-    window.updateCellStyle = updateCellStyle;
-    window.hexToRGB = hexToRGB;
-    window.createDraggableTask = createDraggableTask;
-}
-
-// ✅ Export functions for Vitest
-if (typeof module !== "undefined" && module.exports) {
-    module.exports = { 
-        showModal, makeModalDraggable, updateTaskList, saveEvent, 
-        closeModal, updateCellStyle, hexToRGB, createDraggableTask 
-    };
-}
