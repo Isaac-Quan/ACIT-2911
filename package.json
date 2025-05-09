@@ -27,5 +27,9 @@
   "_moduleAliases": {
   "@routes": "routes",
   "@middleware": "middleware"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.3"
+
   }
 }
