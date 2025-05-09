@@ -89,8 +89,6 @@ td p{
 }
 
 
-<<<<<<< HEAD
-=======
 /* Trash button */
 #taskList button {
     background: linear-gradient(135deg, #6e8efb, #a777e3);
@@ -98,7 +96,6 @@ td p{
     border: none;
     cursor: pointer;
 }
->>>>>>> 19e3a07d4dc1cdb0e1fac3bfd4e4b8abeedc1081
 
 /* Slider styling */
 #opacitySlider {
@@ -286,11 +283,7 @@ td button {
     right: 0px;
     background: none;
     border: none;
-<<<<<<< HEAD
     color:#2a21b0;
-=======
-    color: black;
->>>>>>> 19e3a07d4dc1cdb0e1fac3bfd4e4b8abeedc1081
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.3s ease;
