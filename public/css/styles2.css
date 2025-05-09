@@ -88,23 +88,7 @@ td p{
     font-weight: bold;
 }
 
-/* Task list */
-#taskList li {
-    display: flex;
-    justify-content: space-between;
-    background: #f2f2f2;
-    padding: 5px;
-    margin: 5px 0;
-    border-radius: 5px;
-}
 
-/* Trash button */
-#taskList button {
-    background: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
 
 /* Slider styling */
 #opacitySlider {
@@ -132,18 +116,6 @@ td p{
     white-space: nowrap;
 }
 
-/* Navigation Bar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f0f0f0;
-    padding: 10px 20px;
-    font-size: 18px;
-    border-bottom: 2px solid #ccc;
-    width: 98%;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
 
 /* Dark Mode Navbar */
 .dark-mode .navbar {
@@ -152,17 +124,7 @@ td p{
     border-bottom: 2px solid #555;
 }
 
-/* Back Button */
-.back-button {
-    background: darkred;
-    color: white;
-    padding: 8px 12px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s ease-in-out;
-}
+
 
 .back-button:hover {
     background: red;
@@ -306,7 +268,7 @@ td:hover {
 }
 
 td p{
-    position: absolute;
+    position:relative;
     right: 5%;
     bottom: 10%;
     margin: auto;
@@ -314,14 +276,13 @@ td p{
 }
 
 td button {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
+    position:absolute;
+    bottom: 0px;
+    right: 0px;
     background: none;
     border: none;
-    color: #b04e21;
+    color:#2a21b0;
     cursor: pointer;
-    font-size: 1.2rem;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
