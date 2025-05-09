@@ -20,9 +20,16 @@
   },
   "homepage": "https://github.com/Isaac-Quan/ACIT-2911#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "module-alias": "^2.2.3"
+  },
+  "_moduleAliases": {
+  "@routes": "routes",
+  "@middleware": "middleware"
   },
   "devDependencies": {
     "vitest": "^3.1.3"
+
   }
 }
