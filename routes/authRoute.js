@@ -3,7 +3,7 @@ const path = require('path');
 const router = express.Router();
 
 const dummyUser = {
-    email: 'test@example.com',
+    email: 'test@gmail.com',
     password: 'test'
 };
 
