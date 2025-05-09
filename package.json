@@ -4,7 +4,7 @@
   "description": "Chris Harris",
   "main": "index.js",
   "scripts": {
-    "start":"node server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +20,12 @@
   },
   "homepage": "https://github.com/Isaac-Quan/ACIT-2911#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "module-alias": "^2.2.3"
+  },
+  "_moduleAliases": {
+  "@routes": "routes",
+  "@middleware": "middleware"
   }
 }

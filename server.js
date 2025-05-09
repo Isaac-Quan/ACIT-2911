@@ -1,18 +1,23 @@
-// BASIC EXPRESS SERVER
-// USE npm start to develop from now on
+require('module-alias/register');
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
+
 const app = express();
+const authRoute = require('@routes/authRoute');
+const indexRoute = require('@routes/indexRoute');
 
-app.use(express.static(__dirname)); // Serve static files
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true
+}));
 
-app.get('/', (req, res) => {
-    // load index.html
-    res.sendFile(path.join(__dirname, '/views/index.html'));
-});
+app.use(express.static(__dirname + '/public'));
+app.use('/', authRoute);
+app.use('/', indexRoute);
 
-const PORT = 3000; // LETS STICK TO 3000
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+app.listen(3000, () => {
+    console.log(`Server running at http://localhost:3000`);
 });
 
