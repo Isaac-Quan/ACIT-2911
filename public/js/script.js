@@ -1,9 +1,25 @@
 // GLOBAL EVENT TRACKER (position, color, eventlistener, etc..)
-// VVVVVVVVVVVVVVVVV
 let eventList = {};
 let draggedElement = null; // Track dragged task
 
 let currentDate = new Date()
+
+
+// unit-tests
+// export { 
+//     showModal, 
+//     makeModalDraggable, 
+//     updateTaskList, 
+//     saveEvent, 
+//     closeModal, 
+//     updateCellStyle, 
+//     hexToRGB, 
+//     createDraggableTask, 
+//     renderCalender, 
+//     handleChange 
+// };
+
+
 
 
 // Basic DOM Loader
@@ -130,42 +146,6 @@ function updateTaskList(cell) {
 }
 
 
-
-// BROKEN
-// // Save Calender Task input field
-// function saveEvent() {
-//     const eventText = document.getElementById("eventInput").value;
-//     if (!eventText.trim()) return; // Return if not formatted
-
-//     const cell = window.selectedCell;
-//     const task = createDraggableTask(eventText); // Pass to drag function
-
-//     cell.appendChild(task); // return drag-text to cell
-
-//     // Calculate correct date from grid
-//     const rowIndex = cell.parentElement.rowIndex; // Get row position (starts at 0)
-//     const colIndex = cell.cellIndex; // Get column position (starts at 0)
-
-//     const startDate = rowIndex * 1; // Starting date of each row
-//     const dateNumber = startDate + colIndex; // Adjust based on column position
-
-//     const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-//     const weekday = weekdays[colIndex]; // Get corresponding weekday name
-
-//     const timestamp = `${weekday}, ${dateNumber}`; // <date>, <num> Format
-
-//     if (!eventList[cell]) eventList[cell] = [];
-//     eventList[cell].push({ text: eventText, element: task, timestamp });
-//     // add attributes to event[cell]
-
-//     updateCellStyle();  // self explanatory
-//     updateTaskList(cell);
-//     // closeModal();    
-//     // ^^^^^^^^^^^^^
-//     // UNCOMMENT IF YOU WISH TO HAVE THE WINDOW AUTO CLOSE
-// }
-
-
 function saveEvent() {
     const eventText = document.getElementById("eventInput").value;
     if (!eventText.trim()) return; // Prevent empty entries
@@ -224,25 +204,6 @@ function saveEvent() {
         }
 
     }
-
-
-
-
-
-    // ---------------------------------------------------------------------------------------------------------------------
-
-    // Calculate correct date from grid
-    // const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    // const weekday = weekdays[colIndex]; // Get corresponding weekday name
-    // const dateNumber = rowIndex * 7 + colIndex; // Rough approximation
-
-    // const timestamp = `${weekday}, ${dateNumber}`; 
-
-    // Store event in eventList with the new key
-    // if (!eventList[cellKey]) eventList[cellKey] = [];
-    // eventList[cellKey].push({ text: eventText, element: task, timestamp });
-
-    // updateCellStyle();
     updateTaskList(cell);
     console.log("Event added : ", eventList)
 }
@@ -253,7 +214,6 @@ function saveEvent() {
 function closeModal() {
     document.getElementById("eventModal").style.display = "none";
 }
-
 
 // =============
 // MODIFICATIONS
@@ -344,13 +304,6 @@ function stopDragging() {
     draggedElement = null;
 }
 
-
-
-
-
-
-
-
 const renderCalender = (date) => {
 
     // Sets current date to input or defaults to current date
@@ -367,18 +320,12 @@ const renderCalender = (date) => {
 
     // get the last date of the month ie the 30th
     let lastDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
-
-
-
-
     let yearMonth = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
-
 
     // clears tasks
     Array.from(document.querySelectorAll(".draggable-task")).forEach((task) => {
         task.remove()
     })
-
 
     let squares = document.getElementsByTagName("td")
 
@@ -410,32 +357,46 @@ const renderCalender = (date) => {
             count++
         }
     })
-
-
-
     console.log(currentDate, startingDay, lastDate, squares);
-
     const months = ['January', 'February', 'March', 'April', "May", "June", 'July', 'August', 'September', 'October', 'November', 'December']
-
-
     let h2 = document.getElementById("month-year")
-
     h2.innerText = `${months[currentDate.getMonth()]} - ${currentDate.getFullYear()}`
-
-
-
     console.log("event list", eventList);
-
 }
 
 
-const handleChange = (e) => {
-    let date = e.target.value
-    console.log("Input Date: ", date);
+// const handleChange = (e) => {
+//     let date = e.target.value
+//     console.log("Input Date: ", date);
+//     date += "-1"
+//     renderCalender(date)
+// }
 
-    date += "-1"
+// function handleChange(event) {  
+//     console.log("Background color changed:", event.target.value);  
+//     document.body.style.backgroundColor = event.target.value;  
+// }
 
-    renderCalender(date)
+// // ✅ Ensure `handleChange` is available in HTML
+// window.handleChange = handleChange;
+
+
+// ✅ Make functions globally available for the browser
+if (typeof window !== "undefined") {
+    window.showModal = showModal;
+    window.makeModalDraggable = makeModalDraggable;
+    window.updateTaskList = updateTaskList;
+    window.saveEvent = saveEvent;
+    window.closeModal = closeModal;
+    window.updateCellStyle = updateCellStyle;
+    window.hexToRGB = hexToRGB;
+    window.createDraggableTask = createDraggableTask;
 }
 
-
+// ✅ Export functions for Vitest
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = { 
+        showModal, makeModalDraggable, updateTaskList, saveEvent, 
+        closeModal, updateCellStyle, hexToRGB, createDraggableTask 
+    };
+}
