@@ -14,7 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "node",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/Isaac-Quan/ACIT-2911/issues"
   },

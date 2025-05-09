@@ -127,3 +127,53 @@ td p{
     display: inline-block;
     white-space: nowrap;
 }
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-bottom: 2px solid #ccc;
+    width: 98%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Navbar */
+.dark-mode .navbar {
+    background: #333;
+    color: white;
+    border-bottom: 2px solid #555;
+}
+
+/* Back Button */
+.back-button {
+    background: darkred;
+    color: white;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+.back-button:hover {
+    background: red;
+}
+
+/* Background Color Picker */
+#backgroundColorPicker {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+/* Route Display Styling */
+#routeDisplay {
+    font-size: 14px;
+    color: #007bff; /* Blue */
+    text-decoration: underline;
+    cursor: pointer;
+}

@@ -29,6 +29,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // document.getElementById("colorPicker").addEventListener("input", updateCellStyle);
     // document.getElementById("opacitySlider").addEventListener("input", updateCellStyle);
 
+    document.getElementById("backgroundColorPicker").addEventListener("input", (event) => {
+        document.body.style.backgroundColor = event.target.value;
+    });
+
+    // get url for header
+    const routeDisplay = document.getElementById("routeDisplay");
+    if (routeDisplay) {
+        routeDisplay.textContent = window.location.href;
+    }
+    
     // Get clicked cell
     buttons.forEach(button => {
         button.addEventListener("click", () => {
@@ -218,6 +228,13 @@ function closeModal() {
 // =============
 // MODIFICATIONS
 // =============
+
+
+
+// for header
+function goBack() {
+    window.history.back();
+}
 
 // for methods (.push .splice etc..)
 function updateCellStyle() {
