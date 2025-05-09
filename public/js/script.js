@@ -6,17 +6,17 @@ let currentDate = new Date()
 
 
 // unit-tests
-export { 
-    showModal, 
-    makeModalDraggable, 
-    updateTaskList, 
-    saveEvent, 
-    closeModal, 
-    updateCellStyle, 
-    hexToRGB, 
-    createDraggableTask, 
-    renderCalender, 
-};
+// export { 
+//     showModal, 
+//     makeModalDraggable, 
+//     updateTaskList, 
+//     saveEvent, 
+//     closeModal, 
+//     updateCellStyle, 
+//     hexToRGB, 
+//     createDraggableTask, 
+//     renderCalender, 
+// };
 
 // Basic DOM Loader
 document.addEventListener("DOMContentLoaded", () => {
