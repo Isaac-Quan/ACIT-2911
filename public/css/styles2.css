@@ -25,7 +25,7 @@ td button {
     top: 0%;
 }
 
-td p{
+td p {
     position: absolute;
     right: 5%;
     bottom: 10%;
@@ -41,6 +41,9 @@ td p{
     height: 100%;
     width: 100%;
 }
+
+
+
 
 /* highlights the current day */
 /* .today{
@@ -142,7 +145,8 @@ td p{
 /* Route Display Styling */
 #routeDisplay {
     font-size: 14px;
-    color: #007bff; /* Blue */
+    color: #007bff;
+    /* Blue */
     text-decoration: underline;
     cursor: pointer;
 }
@@ -200,7 +204,8 @@ body {
 /* Route Display Styling */
 #routeDisplay {
     font-size: 14px;
-    color: #007bff; /* Blue */
+    color: #007bff;
+    /* Blue */
     text-decoration: underline;
     cursor: pointer;
 }
@@ -269,8 +274,8 @@ td:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-td p{
-    position:relative;
+td p {
+    position: relative;
     right: 5%;
     bottom: 10%;
     margin: auto;
@@ -278,12 +283,12 @@ td p{
 }
 
 td button {
-    position:absolute;
+    position: absolute;
     bottom: 0px;
     right: 0px;
     background: none;
     border: none;
-    color:#2a21b0;
+    color: #2a21b0;
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -394,4 +399,3 @@ td:hover button {
     justify-content: center;
     cursor: pointer;
 }
-

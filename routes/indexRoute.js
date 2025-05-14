@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/home.html'));
 });
 
-router.get('/index.html', checkAuth, (req, res) => {
+router.get('/index.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/index.html'));
 });
 

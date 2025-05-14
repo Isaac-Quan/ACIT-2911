@@ -1,3 +1,5 @@
+// const { text } = require("express");
+
 // GLOBAL EVENT TRACKER (position, color, eventlistener, etc..)
 let eventList = {};
 let draggedElement = null; // Track dragged task
@@ -24,17 +26,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Live color updater
     // document.getElementById("colorPicker").addEventListener("input", updateCellStyle);
     // document.getElementById("opacitySlider").addEventListener("input", updateCellStyle);
-    
+
     document.getElementById("backgroundColorPicker").addEventListener("input", (event) => {
         document.body.style.backgroundColor = event.target.value;
     });
-    
+
     // get url for header
     const routeDisplay = document.getElementById("routeDisplay");
     if (routeDisplay) {
         routeDisplay.textContent = window.location.href;
     }
-    
+
     // Get clicked cell
     buttons.forEach(button => {
         button.addEventListener("click", () => {
@@ -42,12 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
             showModal(selectedCell);
         });
     });
-    
+
     // Live draggable Modal ( WIP NOT WORKING )
     makeModalDraggable();
 
     renderCalender()
-    
+
+    showNotifications()
 });
 
 // ======
@@ -66,9 +69,9 @@ if (typeof window !== "undefined") {
 
 // Export functions for Vitest
 if (typeof module !== "undefined" && module.exports) {
-    module.exports = { 
-        showModal, makeModalDraggable, updateTaskList, saveEvent, 
-        closeModal, updateCellStyle, hexToRGB, createDraggableTask 
+    module.exports = {
+        showModal, makeModalDraggable, updateTaskList, saveEvent,
+        closeModal, updateCellStyle, hexToRGB, createDraggableTask
     };
 }
 
@@ -184,18 +187,18 @@ function saveEvent() {
     const selectedOpacity = document.getElementById("opacitySlider").value / 100;
     const convertedColor = hexToRGB(selectedColor)
 
-    const color =`rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`
+    const color = `rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`
 
     // Generate unique identifier using row and column index
     // const rowIndex = cell.parentElement.rowIndex;
     // const colIndex = cell.cellIndex;
     // const cellKey = `${rowIndex}-${colIndex}`;
 
-    const task = createDraggableTask(eventText,color );
+    const task = createDraggableTask(eventText, color);
     cell.lastElementChild.appendChild(task);
 
 
-    
+
     const cellDate = parseInt(cell.children[0].innerText);
     const key = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
 
@@ -220,7 +223,7 @@ function saveEvent() {
         // yy-mm exists but not date
         else {
 
-            eventList[key][cellDate] = {events:[event] }
+            eventList[key][cellDate] = { events: [event] }
 
         }
     }
@@ -287,7 +290,7 @@ function hexToRGB(hex) {
 
 
 // Create Draggable Task
-function createDraggableTask(text,color) {
+function createDraggableTask(text, color) {
     // border for boundary
     const task = document.createElement("div");
     task.textContent = text;
@@ -400,3 +403,82 @@ const renderCalender = (date) => {
 }
 
 
+// show notifications once
+const showNotifications = () => {
+    // TODO account for checking next month
+
+    // decoy list
+    const eventList = {
+        "2025-05": {
+            16: {
+                events: [
+                    {
+                        text: "pop",
+                        color: "rgba()"
+                    }
+                ]
+            },
+            17: {
+                events: [
+                    {
+                        text: "oquiz"
+                    }
+                ]
+            }
+        }
+    }
+    console.log(eventList[`${currentDate.getFullYear}-${currentDate.getMonth}`]);
+    
+    if (Object.keys(eventList).length == 0) {
+        console.log("No notifs", Object.keys(eventList).length > 0);
+        return
+
+    }
+
+    // create/unhide modal 
+
+    // get tasks due within x days
+    const dueSoon = 3
+
+    const currentDate = new Date().getDate()
+
+
+
+    let dueShit = []
+    for (let index = currentDate; index <= currentDate + dueSoon; index++) {
+
+        // check if there are any events for that date
+        if (eventList[index]?.events.length > 0) {
+            eventList[index]?.events.forEach(x => {
+
+                dueShit.push({ text: x.text, due: currentDate - index })
+            })
+
+        }
+
+    }
+
+    console.log("Due Shit: ", dueShit)
+
+    let notifsBox = document.querySelector("#notif-box")
+
+    dueShit.forEach(course => {
+        const courseItem = document.createElement("div");
+        courseItem.className = "course-item"
+        const courseText = document.createElement("div");
+        courseText.innerText = course.text
+        const courseDue = document.createElement("div");
+        courseDue.innerText = course.due
+
+        courseItem.appendChild(courseText)
+        courseItem.appendChild(courseDue)
+        notifsBox.appendChild(courseItem)
+
+
+    })
+
+
+
+
+
+}
