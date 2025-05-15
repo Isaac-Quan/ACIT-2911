@@ -403,17 +403,15 @@ const renderCalender = (date) => {
 }
 
 
-// show notifications once
 const showNotifications = () => {
-    // TODO account for checking next month
 
-    // decoy list
+    // test event list
     const eventList = {
         "2025-5": {
             16: {
                 events: [
                     {
-                        text: "pop",
+                        text: "Wizard Final",
                         color: "rgba()"
                     }
                 ]
@@ -421,7 +419,7 @@ const showNotifications = () => {
             17: {
                 events: [
                     {
-                        text: "oquiz"
+                        text: "Tethics Final"
                     }
                 ]
             }
@@ -434,77 +432,43 @@ const showNotifications = () => {
             },
             9: {
                 events: [
-                    { text: "Boobs Final" }
+                    { text: "War Quiz" }
                 ]
             },
         }
     }
 
+    // variable that checks events that are due in x days
+    const dueSoon = 3
+
     const currentDate = new Date()
 
-    let lastDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
     let yearMonth = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
 
-    console.log("year-month", yearMonth, "last date", lastDate);
 
-
-    // console.log(key, eventList[key]);
-    console.log(eventList);
-
-
+    // checks if there are notifications
     if (typeof eventList[yearMonth] == "undefined" || Object.keys(eventList[yearMonth]).length == 0) {
         console.log("No notifs", Object.keys(eventList).length > 0);
         return
 
     }
 
-    // create/unhide modal 
-
-    // get tasks due within x days
-
-
-
-    console.log(currentDate);
-
 
     let dueShit = []
 
-    // let month = currentDate.getMonth() + 1;
-    // let year = currentDate.getFullYear();
-    // console.log(month, year);
-
-
-    // let temp = new Date()
-    // temp.setDate(currentDate.getDate() + dueSoon)
-
-    // let tMonth = temp.getMonth() + 1;
-    // let tYear = temp.getFullYear();
-
-    // console.log(temp);
-
-
-    // either check every date range for events OR iterate over the events and check if in range 
-    const dueSoon = 25
-
     for (let index = currentDate.getDate(); index <= currentDate.getDate() + dueSoon; index++) {
-        console.log(index);
 
         temp = new Date()
         temp.setDate(index)
         let key = `${temp.getFullYear()}-${temp.getMonth() + 1}`
         let key2 = temp.getDate()
 
-        console.log(key, key2);
-        // check year-month against date + dueSoon to see if we need to check mult months / years
-
-
 
         // check if there are any events for that date
         if (eventList[key]?.[key2]?.events.length > 0) {
 
-            // check events for that date
+            // adds events to render list
             eventList[key][key2]?.events.forEach(x => {
-                console.log(x);
 
                 dueShit.push({ text: x.text, due: index - currentDate.getDate() })
             })
@@ -513,10 +477,10 @@ const showNotifications = () => {
 
     }
 
-    console.log("Due Shit: ", dueShit)
 
     let notifsBox = document.querySelector("#notif-box")
 
+    // adding items to modal
     dueShit.forEach(course => {
         const courseItem = document.createElement("div");
         courseItem.className = "course-item"
@@ -545,6 +509,8 @@ const showNotifications = () => {
         courseItem.appendChild(courseText)
         courseItem.appendChild(courseDue)
         notifsBox.appendChild(courseItem)
+
+        // disables scrolling
         document.body.style.overflow = "hidden"
 
     })
@@ -559,17 +525,12 @@ const showNotifications = () => {
 
 
 const exitNotifications = () => {
-    console.log("FUCK YOU");
-    
+
     // reenable scrollbar
     document.body.style.overflow = "auto";
 
     // rehide modal
     let modal = document.querySelector("#notifcation-modal");
-
-
     modal.style.display = "none"
-
-
 
 }
