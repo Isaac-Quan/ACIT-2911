@@ -522,17 +522,53 @@ const showNotifications = () => {
         courseItem.className = "course-item"
         const courseText = document.createElement("div");
         courseText.innerText = course.text
+
         const courseDue = document.createElement("div");
-        courseDue.innerText = course.due
+
+        switch (course.due) {
+            case 0:
+
+                courseDue.innerText = "Today"
+                break;
+
+            case 1:
+                courseDue.innerText = "Tomorrow"
+                break;
+
+            default:
+
+                courseDue.innerText = course.due + " days"
+                break;
+        }
+
 
         courseItem.appendChild(courseText)
         courseItem.appendChild(courseDue)
         notifsBox.appendChild(courseItem)
-
+        document.body.style.overflow = "hidden"
 
     })
 
 
+
+
+
+
+
+}
+
+
+const exitNotifications = () => {
+    console.log("FUCK YOU");
+    
+    // reenable scrollbar
+    document.body.style.overflow = "auto";
+
+    // rehide modal
+    let modal = document.querySelector("#notifcation-modal");
+
+
+    modal.style.display = "none"
 
 
 
