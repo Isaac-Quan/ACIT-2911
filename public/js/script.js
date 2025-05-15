@@ -19,6 +19,8 @@ let currentDate = new Date()
 // };
 
 // Basic DOM Loader
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll("td button");
     // Live color updater
@@ -234,7 +236,23 @@ function saveEvent() {
     }
     updateTaskList(cell);
     console.log("Event added : ", eventList)
+
+      //  Save the updated eventList to the server
+    fetch('/api/saveTasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(eventList)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Saved to server:", data);
+    })
+    .catch(err => {
+        console.error("Error saving tasks:", err);
+    });
+
 }
+
 
 
 
@@ -347,8 +365,7 @@ const renderCalender = (date) => {
 
     currentDate.setDate(1)
 
-    // if same year-month no change
-    if (date === `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`) return;
+    
 
     // like mon, tue, wed
     let startingDay = currentDate.getDay()
@@ -399,4 +416,40 @@ const renderCalender = (date) => {
     console.log("event list", eventList);
 }
 
+
+function setupCalendarUI() {
+    // background color picker
+    document.getElementById("backgroundColorPicker").addEventListener("input", (event) => {
+        document.body.style.backgroundColor = event.target.value;
+    });
+
+    // route URL
+    const routeDisplay = document.getElementById("routeDisplay");
+    if (routeDisplay) {
+        routeDisplay.textContent = window.location.href;
+    }
+
+    // calendar buttons (open modal)
+    const buttons = document.querySelectorAll("td button");
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            const selectedCell = button.parentElement;
+            showModal(selectedCell);
+        });
+    });
+
+    // make modal draggable
+    makeModalDraggable();
+
+    // render tasks on calendar
+    renderCalender();
+}
+
+// Handle month picker change
+function handleChange(event) {
+    const selected = event.target.value;     // "2025-07"
+    const fixedDate = selected + "-01";      // "2025-07-01"
+    console.log("User picked month:", fixedDate); //  optional for debugging
+    renderCalender(fixedDate);               // Update the calendar
+}
 

@@ -3,7 +3,9 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 
+
 const app = express();
+app.use(express.json());
 const authRoute = require('@routes/authRoute');
 const indexRoute = require('@routes/indexRoute');
 app.use(session({
@@ -11,6 +13,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+
 
 app.use(express.static(__dirname + '/public'));
 app.use('/', authRoute);
