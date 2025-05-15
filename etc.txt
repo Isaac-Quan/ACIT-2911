@@ -1,0 +1,43 @@
+Bind color to date object instead of style
+
+
+hide unused buttons / conditionally render them
+
+somewhat persistant events
+
+highlights current day
+
+{
+    date: timestamp,
+    color: "rgb(0,0,0)",
+    events:[
+        {
+            name: "Math Final",
+
+        }
+    ]
+}
+
+{
+    name: dude
+    events:{
+
+    }
+}
+
+event list :year-month => dates => {color, events}
+{
+    2025-1:{
+            4 : {
+                color: rgba(0,0,0,1),
+                events:[ {
+                    text: "math final"
+                    notes:""
+                }]
+            }
+    }
+}
+
+
+other n
+{text,element,timestamp}

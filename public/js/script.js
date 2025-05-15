@@ -409,7 +409,7 @@ const showNotifications = () => {
 
     // decoy list
     const eventList = {
-        "2025-05": {
+        "2025-5": {
             16: {
                 events: [
                     {
@@ -425,11 +425,34 @@ const showNotifications = () => {
                     }
                 ]
             }
+        },
+        "2025-6": {
+            1: {
+                events: [
+                    { text: "PE Final" }
+                ]
+            },
+            9: {
+                events: [
+                    { text: "Boobs Final" }
+                ]
+            },
         }
     }
-    console.log(eventList[`${currentDate.getFullYear}-${currentDate.getMonth}`]);
-    
-    if (Object.keys(eventList).length == 0) {
+
+    const currentDate = new Date()
+
+    let lastDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
+    let yearMonth = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
+
+    console.log("year-month", yearMonth, "last date", lastDate);
+
+
+    // console.log(key, eventList[key]);
+    console.log(eventList);
+
+
+    if (typeof eventList[yearMonth] == "undefined" || Object.keys(eventList[yearMonth]).length == 0) {
         console.log("No notifs", Object.keys(eventList).length > 0);
         return
 
@@ -438,20 +461,52 @@ const showNotifications = () => {
     // create/unhide modal 
 
     // get tasks due within x days
-    const dueSoon = 3
 
-    const currentDate = new Date().getDate()
 
+
+    console.log(currentDate);
 
 
     let dueShit = []
-    for (let index = currentDate; index <= currentDate + dueSoon; index++) {
+
+    // let month = currentDate.getMonth() + 1;
+    // let year = currentDate.getFullYear();
+    // console.log(month, year);
+
+
+    // let temp = new Date()
+    // temp.setDate(currentDate.getDate() + dueSoon)
+
+    // let tMonth = temp.getMonth() + 1;
+    // let tYear = temp.getFullYear();
+
+    // console.log(temp);
+
+
+    // either check every date range for events OR iterate over the events and check if in range 
+    const dueSoon = 25
+
+    for (let index = currentDate.getDate(); index <= currentDate.getDate() + dueSoon; index++) {
+        console.log(index);
+
+        temp = new Date()
+        temp.setDate(index)
+        let key = `${temp.getFullYear()}-${temp.getMonth() + 1}`
+        let key2 = temp.getDate()
+
+        console.log(key, key2);
+        // check year-month against date + dueSoon to see if we need to check mult months / years
+
+
 
         // check if there are any events for that date
-        if (eventList[index]?.events.length > 0) {
-            eventList[index]?.events.forEach(x => {
+        if (eventList[key]?.[key2]?.events.length > 0) {
 
-                dueShit.push({ text: x.text, due: currentDate - index })
+            // check events for that date
+            eventList[key][key2]?.events.forEach(x => {
+                console.log(x);
+
+                dueShit.push({ text: x.text, due: index - currentDate.getDate() })
             })
 
         }
