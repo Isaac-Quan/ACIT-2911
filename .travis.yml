@@ -1,6 +1,15 @@
-language: node
+language: node_js
 node:
-- "24"
+  # - "14"
+  # - "16"
+  # - "18"
+  # - "20"
+  # - "21"
+  # - "22"
+  # - "23"
+  - "24"
+
+
 
 before_install:
   - sudo apt-get update
