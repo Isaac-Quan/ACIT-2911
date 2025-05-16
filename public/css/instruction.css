@@ -1,4 +1,3 @@
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,7 +5,6 @@ body {
     background-color: white;
 }
 
-/* Navigation Bar */
 nav {
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     padding: 1rem;
@@ -31,7 +29,6 @@ nav a button:hover {
     color: #a777e3;
 }
 
-/* Headings with Gradient */
 h1, h2 {
     color: #6e8efb;
 }
@@ -51,7 +48,6 @@ li {
     margin-bottom: 10px;
 }
 
-/* Footer */
 footer {
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     color: white;
