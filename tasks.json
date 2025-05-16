@@ -9,5 +9,16 @@
       ]
     }
   },
-  "test@gmail.com": {}
+  "test@gmail.com": {
+    "2025-8": {
+      "4": {
+        "events": [
+          {
+            "text": "Start of term 3",
+            "color": "rgba(0,0,0,1)"
+          }
+        ]
+      }
+    }
+  }
 }

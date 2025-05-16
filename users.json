@@ -1,5 +1,7 @@
 {
   "test@gmail.com": {
-    "courses": {}
+    "courses": {
+      "oop": "#000000"
+    }
   }
 }

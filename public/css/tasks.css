@@ -1,0 +1,126 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f7f9fc;
+    color: #333;
+    padding: 20px;
+}
+
+/* Page Title */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #6e00ff;
+    margin: 2rem auto 1rem auto;
+}
+
+/* Navigation Bar */
+nav {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+nav a button {
+    color: white;
+    background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s, transform 0.2s ease;
+}
+
+nav a button:hover {
+    background-color: #e0c7f8;
+    transform: scale(1.05);
+}
+
+/* Task Display Container */
+#taskDisplay {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Task List */
+#taskDisplay ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Individual Task Card */
+#taskDisplay li {
+    background: linear-gradient(135deg, #d3cce3, #e9e4f0);
+    margin: 10px 0;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Task Text */
+#taskDisplay li strong {
+    font-weight: 700;
+    color: #6e00ff;
+}
+
+/* Task Date */
+#taskDisplay li em {
+    font-style: italic;
+    color: #555;
+    font-size: 0.85rem;
+    margin-left: 10px;
+}
+
+/* Delete Button */
+.delete-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: center;
+    margin-left: 15px;
+    transition: transform 0.2s ease;
+}
+
+.delete-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
