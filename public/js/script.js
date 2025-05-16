@@ -176,68 +176,53 @@ function updateTaskList(cell) {
 }
 
 
-function saveEvent() {
+async function saveEvent() {
     const eventText = document.getElementById("eventInput").value;
     if (!eventText.trim()) return; // Prevent empty entries
 
     const cell = window.selectedCell;
+    const courseName = document.getElementById("task-course").value;
 
-    const selectedColor = document.getElementById("colorPicker").value;
-    const selectedOpacity = document.getElementById("opacitySlider").value / 100;
-    const convertedColor = hexToRGB(selectedColor)
+    let selectedColor = "#cccccc"; // fallback default
 
-    const color =`rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`
+    try {
+        const res = await fetch('/courses');
+        const courses = await res.json();
+        if (courses[courseName]) {
+            selectedColor = courses[courseName];
+        }
+    } catch (e) {
+        console.error("Could not fetch course color. Using default:", e);
+    }
 
-    // Generate unique identifier using row and column index
-    // const rowIndex = cell.parentElement.rowIndex;
-    // const colIndex = cell.cellIndex;
-    // const cellKey = `${rowIndex}-${colIndex}`;
+    const convertedColor = hexToRGB(selectedColor);
+    const color = `rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},1)`; // full opacity
 
-    const task = createDraggableTask(eventText,color );
+    const task = createDraggableTask(eventText, color);
     cell.lastElementChild.appendChild(task);
 
-
-    
     const cellDate = parseInt(cell.children[0].innerText);
-    const key = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
-
-
+    const key = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`;
 
     const event = {
         text: eventText,
         color
+    };
+
+    if (!eventList[key]) {
+        eventList[key] = {};
     }
 
-    // check if year-month exists
-    if (eventList.hasOwnProperty(key)) {
-        // check if date already exists
-        if (eventList[key].hasOwnProperty(cellDate)) {
-            // Handling color change on an already occupied cell
-
-            // eventList[key][cellDate].color !=  `rgba(${convertedColor.r},${convertedColor.g},${convertedColor.b},${selectedOpacity})`
-            eventList[key][cellDate].events.push(event)
-
-        }
-
-        // yy-mm exists but not date
-        else {
-
-            eventList[key][cellDate] = {events:[event] }
-
-        }
+    if (!eventList[key][cellDate]) {
+        eventList[key][cellDate] = { events: [] };
     }
-    else {
-        eventList[key] = {
-            [cellDate]: {
-                events: [event]
-            }
-        }
 
-    }
+    eventList[key][cellDate].events.push(event);
+
     updateTaskList(cell);
-    console.log("Event added : ", eventList)
+    console.log("Event added:", eventList);
 
-      //  Save the updated eventList to the server
+    // Save to server
     fetch('/api/saveTasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -250,8 +235,8 @@ function saveEvent() {
     .catch(err => {
         console.error("Error saving tasks:", err);
     });
-
 }
+
 
 
 
@@ -269,8 +254,8 @@ function closeModal() {
 
 // for header
 function goBack() {
-    window.history.back();
-}
+    window.location.href = "/home.html"; 
+  }
 
 // for methods (.push .splice etc..)
 function updateCellStyle() {
@@ -357,7 +342,9 @@ function stopDragging() {
     draggedElement = null;
 }
 
-const renderCalender = (date) => {
+const renderCalender = async (date) => {
+    const loadEvents = await fetch('/api/tasks');
+    eventList = await loadEvents.json();
 
     // Sets current date to input or defaults to current date
     currentDate = (typeof date === 'undefined') ? new Date() : new Date(date)
@@ -409,10 +396,24 @@ const renderCalender = (date) => {
             count++
         }
     })
+
+    function markEmptyCells() {
+        document.querySelectorAll("td").forEach((cell) => {
+            const isDateCell = cell.classList.contains("date");
+  
+                if (!isDateCell) {
+            cell.classList.add("empty");
+            } else {
+            cell.classList.remove("empty");
+         }
+    });
+    }
+  
     console.log(currentDate, startingDay, lastDate, squares);
     const months = ['January', 'February', 'March', 'April', "May", "June", 'July', 'August', 'September', 'October', 'November', 'December']
     let h2 = document.getElementById("month-year")
     h2.innerText = `${months[currentDate.getMonth()]} - ${currentDate.getFullYear()}`
+    markEmptyCells();
     console.log("event list", eventList);
 }
 
@@ -453,3 +454,20 @@ function handleChange(event) {
     renderCalender(fixedDate);               // Update the calendar
 }
 
+async function populateCourseDropdown() {
+    const res = await fetch('/courses');
+    const courses = await res.json();
+    const select = document.getElementById('task-course');
+    select.innerHTML = ""; // clear first
+  
+    Object.entries(courses).forEach(([name]) => {
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      select.appendChild(opt);
+    });
+  }
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    populateCourseDropdown();
+  });
