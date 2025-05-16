@@ -1,0 +1,7 @@
+language: node
+node:
+- "23.9.0"
+
+install: "npm install"
+script:
+- npm start
