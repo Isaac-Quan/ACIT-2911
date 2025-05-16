@@ -201,6 +201,13 @@ function updateTaskList(cell) {
 
 
             editBtn.addEventListener("click", (event) => {
+
+                console.log(event.target.parentElement,event.target.parentElement.children.length);
+                
+                if(event.target.parentElement.children.length >=4){
+                    return
+                }
+
                 inputLabel.removeAttribute("disabled");
 
                 const confirmCallback = (event, initialVal) => {
