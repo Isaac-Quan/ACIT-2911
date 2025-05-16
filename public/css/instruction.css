@@ -5,13 +5,32 @@ body {
     background-color: white;
 }
 
+h1 {
+    text-align: center;
+}
+
+h1, h2 {
+    color: #6e8efb;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
 nav {
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     padding: 1rem;
     display: flex;
-    gap: 1rem;
     justify-content: center;
+    gap: 1rem;
     flex-wrap: wrap;
+}
+
+.nav-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    margin-right: auto;
 }
 
 nav a button {
@@ -26,22 +45,7 @@ nav a button {
 
 nav a button:hover {
     background-color: #e0c7f8;
-    color: #a777e3;
-}
-
-h1, h2 {
     color: #6e8efb;
-}
-
-h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    display: block;
-    margin: 2rem auto 1rem auto;
-}
-
-h2 {
-    margin-bottom: 10px;
 }
 
 li {
@@ -52,5 +56,6 @@ footer {
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 2rem;
+    font-size: 1.2rem;
 }
