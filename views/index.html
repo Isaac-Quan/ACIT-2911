@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mote</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
@@ -17,7 +17,7 @@
         <label for="backgroundColorPicker">Background:</label>
         <input type="color" id="backgroundColorPicker">
     </header>
-    
+
     <header>
         <h1>Mote</h1>
     </header>
@@ -33,13 +33,19 @@
         </div>
         <div id="calendar-wrapper">
             <div id="calendar-area">
-              <table>
-                <thead>
-                  <tr id="days">
-                    <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thur</th><th>Fri</th><th>Sat</th>
-                  </tr>
-                </thead>
-                <tbody>
+                <table>
+                    <thead>
+                        <tr id="days">
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thur</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td>
                                 <p></p>
@@ -262,20 +268,34 @@
                                 <div class="task-container"></div>
                             </td>
                         </tr>
-                </tbody>
-              </table>
+                    </tbody>
+                </table>
             </div>
-          
+
 
             <div id="course-form">
                 <h4>Manage Courses</h4>
-              <input type="text" id="course-name" placeholder="Course Name" />
-              <input type="color" id="course-color" />
-              <button id="add-course">Add / Update Course</button>
-              <ul id="course-list"></ul>
-              <script src="/js/courseManager.js"></script>
+                <input type="text" id="course-name" placeholder="Course Name" />
+                <input type="color" id="course-color" />
+                <button id="add-course">Add / Update Course</button>
+                <ul id="course-list"></ul>
+                <script src="/js/courseManager.js"></script>
             </div>
-          </div>
+        </div>
+
+        <!-- Notification modal -->
+        <div id="notifcation-modal">
+            <div class="modal-bg" onclick="exitNotifications()"></div>
+
+            <div class="modal-box">
+                <button class="modal-exit-btn" onclick="exitNotifications()">x</button>
+
+                <h2>Due Shit:</h2>
+                <div id="notif-box"></div>
+            </div>
+
+
+        </div>
 
         <!-- Pop-up Modal -->
         <div id="eventModal">
