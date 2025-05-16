@@ -1,6 +1,16 @@
-language: node
-node:
-- "24"
+language: node_js
+dist: jammy  # Targets Ubuntu 22.04
+node_js:
+  # - "14"
+  # - "16"
+  # - "18"
+  # - "20"
+  # - "21"
+  # - "22"
+  # - "23"
+  - "24"
+
+
 
 before_install:
   - sudo apt-get update
@@ -9,4 +19,12 @@ before_install:
 
 install: "npm install"
 script:
-- npm start
+- npm run test
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: 
+  app: "acit2911-nick" 
+  on:
+    repo: "https://github.com/NickSevostiyanov/ACIT-2911"
