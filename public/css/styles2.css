@@ -228,18 +228,60 @@ input[type="month"] {
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     font-size: 1rem;
-    margin: 10px 0;
+    margin-top: 10px 0;
 
 }
+#calendar-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin: 2rem;
+  }
+  
+  #calendar-area {
+    flex: 2;
+  }
+  
+  #course-form {
+    flex: 1;
+    min-width: 250px;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
 
+#dashboard-container {
+    gap: 2rem;              
+    align-items: flex-start; 
+    margin-top: 2rem;
+  }
+  
 
+  #course-form {
+    flex: 1;
+    min-width: 150px;
+    max-width: 170px;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
 
-table {
+/* table {
     width: 100%;
     max-width: 1000px;
     margin: 20px auto;
     border-collapse: separate;
     border-spacing: 8px;
+} */
+
+table {
+    flex: 2;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #ffffff;
 }
 
 thead th {
@@ -395,3 +437,19 @@ td:hover button {
     cursor: pointer;
 }
 
+td.empty {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  
+  td.empty:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  td.empty p,
+  td.empty button,
+  td.empty .task-container {
+    display: none;
+  }  

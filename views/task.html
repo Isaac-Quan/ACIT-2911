@@ -1,12 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task List</title>
+  <link rel="stylesheet" href="/css/tasks.css" />
+
 </head>
 <body>
-    <h1>Tasks</h1>
-    
+
+  <!-- Title at the top -->
+  <h1>📋 Your Tasks</h1>
+
+  <!-- A simple nav with back home button -->
+  <nav>
+    <a href="/"><button>Back Home</button></a>
+  </nav>
+
+  <!-- This is where all the tasks will be shown -->
+  <div id="taskDisplay">
+    <ul></ul>
+  </div>
+
+  <script>
+    // I’m getting the saved tasks from my server (stored in tasks.json)
+    fetch('/api/tasks')
+      .then(res => res.json())
+      .then(data => {
+        const ul = document.querySelector('#taskDisplay ul');
+
+        // If no tasks exist yet, just show a cute empty message :)
+        if (!data || Object.keys(data).length === 0) {
+          ul.innerHTML = "<li>No tasks saved yet 🌸</li>";
+          return;
+        }
+
+        // Loop through the data by month and date and show each task
+        for (const month in data) {
+          for (const date in data[month]) {
+            const tasks = data[month][date].events;
+
+            tasks.forEach((task, index) => {
+              const li = document.createElement('li');
+
+              // Here's the task display: task name, date, and delete button
+              li.innerHTML = `
+                <span>
+                  <strong>📌 ${task.text}</strong>
+                  <em>📅 ${month}-${String(date).padStart(2, '0')}</em>
+                </span>
+                <button class="delete-btn" title="Delete Task">🗑</button>
+              `;
+
+              // When the delete button is clicked
+              li.querySelector('.delete-btn').addEventListener('click', () => {
+                // Remove the task from the list in memory
+                tasks.splice(index, 1);
+
+                // If there are no more tasks for that day, clean up the date and month too
+                if (tasks.length === 0) {
+                  delete data[month][date];
+                  if (Object.keys(data[month]).length === 0) {
+                    delete data[month];
+                  }
+                }
+
+                // Now I save the updated task list to the server
+                fetch('/api/saveTasks', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(() => {
+                  // Remove the task visually from the page too
+                  li.remove();
+                })
+                .catch(err => {
+                  alert("Error deleting task");
+                  console.error(err);
+                });
+              });
+
+              // Finally, add this task card to the list on the page
+              ul.appendChild(li);
+            });
+          }
+        }
+      })
+      .catch(err => {
+        // If something went wrong while loading tasks
+        document.querySelector('#taskDisplay ul').innerHTML = "<li>⚠️ Error loading tasks</li>";
+        console.error(err);
+      });
+  </script>
 </body>
 </html>

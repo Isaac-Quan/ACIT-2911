@@ -7,7 +7,6 @@ const dummyUser = {
     password: 'test'
 };
 
-
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/login.html'));
 });
@@ -17,8 +16,8 @@ router.post('/login', express.urlencoded({ extended: true }), (req, res) => {
     console.log('Submitted credentials:', email, password);
     
     if (email === dummyUser.email && password === dummyUser.password) {
-        req.session.user = email;
-        res.redirect('/');
+        req.session.userId = email;
+        res.redirect('/home.html');
     } else {
         res.status(401).send('Invalid credentials');
     }
