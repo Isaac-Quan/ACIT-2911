@@ -19,4 +19,4 @@ before_install:
 
 install: "npm install"
 script:
-- npm start
+- npm run test
