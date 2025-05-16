@@ -515,3 +515,17 @@ td.empty {
     transform: scale(1.2);
     color: #a777e3; /* Secondary color from your gradient */
 }
+
+#calendarTask {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+}
