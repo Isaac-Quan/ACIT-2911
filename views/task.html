@@ -1,196 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task List</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task List</title>
+  <link rel="stylesheet" href="/css/tasks.css" />
 
-    <style>
-        /* General body styling - soft and friendly */
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #fff5fa;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-
-        /* Main title at the top of the page */
-        h1 {
-            text-align: center;
-            color: #a777e3;
-            font-size: 2.5rem;
-        }
-
-        /* Simple nav bar with a back home button */
-        nav {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        nav a button {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            border: none;
-            border-radius: 20px;
-            font-size: 1rem;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        nav a button:hover {
-            transform: scale(1.05);
-        }
-
-        /* Container for all tasks */
-        #taskDisplay {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Reset default UL padding */
-        #taskDisplay ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        /* Individual task card */
-        #taskDisplay li {
-            background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
-            margin: 10px 0;
-            padding: 15px 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-size: 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        /* Task title styling */
-        #taskDisplay li strong {
-            font-weight: 700;
-            color: #6e00ff;
-        }
-
-        /* Task date styling */
-        #taskDisplay li em {
-            font-style: italic;
-            color: #555;
-            font-size: 0.9rem;
-        }
-
-        /* Cute little delete button */
-        .delete-btn {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            font-size: 16px;
-            line-height: 28px;
-            text-align: center;
-            margin-left: 15px;
-            transition: transform 0.2s ease;
-        }
-
-        .delete-btn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Fade-in animation for smoother task appearance */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
 </head>
 <body>
 
-    <h1>📋 Your Tasks</h1>
+  <!-- Title at the top -->
+  <h1>📋 Your Tasks</h1>
 
-    <!-- Navigation bar with back home link -->
-    <nav>
-        <a href="/"><button>Back Home</button></a>
-    </nav>
+  <!-- A simple nav with back home button -->
+  <nav>
+    <a href="/"><button>Back Home</button></a>
+  </nav>
 
-    <!-- This is where the tasks will show up -->
-    <div id="taskDisplay">
-        <ul></ul>
-    </div>
+  <!-- This is where all the tasks will be shown -->
+  <div id="taskDisplay">
+    <ul></ul>
+  </div>
 
-    <script>
-        // Fetch tasks saved from the backend (in tasks.json)
-        fetch('/api/tasks')
-            .then(res => res.json())
-            .then(data => {
-                const ul = document.querySelector('#taskDisplay ul');
+  <script>
+    // I’m getting the saved tasks from my server (stored in tasks.json)
+    fetch('/api/tasks')
+      .then(res => res.json())
+      .then(data => {
+        const ul = document.querySelector('#taskDisplay ul');
 
-                // If nothing is saved, show a friendly message
-                if (!data || Object.keys(data).length === 0) {
-                    ul.innerHTML = "<li>No tasks saved yet 🌸</li>";
-                    return;
+        // If no tasks exist yet, just show a cute empty message :)
+        if (!data || Object.keys(data).length === 0) {
+          ul.innerHTML = "<li>No tasks saved yet 🌸</li>";
+          return;
+        }
+
+        // Loop through the data by month and date and show each task
+        for (const month in data) {
+          for (const date in data[month]) {
+            const tasks = data[month][date].events;
+
+            tasks.forEach((task, index) => {
+              const li = document.createElement('li');
+
+              // Here's the task display: task name, date, and delete button
+              li.innerHTML = `
+                <span>
+                  <strong>📌 ${task.text}</strong>
+                  <em>📅 ${month}-${String(date).padStart(2, '0')}</em>
+                </span>
+                <button class="delete-btn" title="Delete Task">🗑</button>
+              `;
+
+              // When the delete button is clicked
+              li.querySelector('.delete-btn').addEventListener('click', () => {
+                // Remove the task from the list in memory
+                tasks.splice(index, 1);
+
+                // If there are no more tasks for that day, clean up the date and month too
+                if (tasks.length === 0) {
+                  delete data[month][date];
+                  if (Object.keys(data[month]).length === 0) {
+                    delete data[month];
+                  }
                 }
 
-                // Loop through months and dates to display all tasks
-                for (const month in data) {
-                    for (const date in data[month]) {
-                        const tasks = data[month][date].events;
+                // Now I save the updated task list to the server
+                fetch('/api/saveTasks', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(() => {
+                  // Remove the task visually from the page too
+                  li.remove();
+                })
+                .catch(err => {
+                  alert("Error deleting task");
+                  console.error(err);
+                });
+              });
 
-                        tasks.forEach((task, index) => {
-                            const li = document.createElement('li');
-
-                            // Create task card with title, date, and delete button
-                            li.innerHTML = `
-                                <span>
-                                    <strong>📌 ${task.text}</strong>
-                                    <em>📅 ${month}-${String(date).padStart(2, '0')}</em>
-                                </span>
-                                <button class="delete-btn" title="Delete Task">🗑</button>
-                            `;
-
-                            // Handle delete button click
-                            li.querySelector('.delete-btn').addEventListener('click', () => {
-                                tasks.splice(index, 1); // Remove from memory
-
-                                // Clean up if no tasks left for that date/month
-                                if (tasks.length === 0) {
-                                    delete data[month][date];
-                                    if (Object.keys(data[month]).length === 0) {
-                                        delete data[month];
-                                    }
-                                }
-
-                                // Save updated task list to the server
-                                fetch('/api/saveTasks', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify(data)
-                                })
-                                .then(res => res.json())
-                                .then(() => {
-                                    li.remove(); // Instantly remove from the UI
-                                })
-                                .catch(err => {
-                                    alert("Error deleting task");
-                                    console.error(err);
-                                });
-                            });
-
-                            ul.appendChild(li);
-                        });
-                    }
-                }
-            })
-            .catch(err => {
-                // If something goes wrong, show a warning
-                document.querySelector('#taskDisplay ul').innerHTML = "<li>⚠️ Error loading tasks</li>";
-                console.error(err);
+              // Finally, add this task card to the list on the page
+              ul.appendChild(li);
             });
-    </script>
+          }
+        }
+      })
+      .catch(err => {
+        // If something went wrong while loading tasks
+        document.querySelector('#taskDisplay ul').innerHTML = "<li>⚠️ Error loading tasks</li>";
+        console.error(err);
+      });
+  </script>
 </body>
 </html>
