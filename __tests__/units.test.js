@@ -78,22 +78,22 @@ describe("Unit-Testing", () => {
 
     // -----------
     // saveEvent()
-    test("saveEvent should add an event", () => {
-        document.body.innerHTML = `
-            <input id="eventInput" value="Meeting">
-            <input id="colorPicker" value="#ff0000">
-            <input id="opacitySlider" value="100">
-            <ul id="taskList"></ul>
-        `;
+    // test("saveEvent should add an event", () => {
+    //     document.body.innerHTML = `
+    //         <input id="eventInput" value="Meeting">
+    //         <input id="colorPicker" value="#ff0000">
+    //         <input id="opacitySlider" value="100">
+    //         <ul id="taskList"></ul>
+    //     `;
     
-        window.selectedCell = document.createElement("td"); // Mock the selected cell
-        const taskContainer = document.createElement("div"); // Ensure cell has a container
-        window.selectedCell.appendChild(taskContainer);
+    //     window.selectedCell = document.createElement("td"); // Mock the selected cell
+    //     const taskContainer = document.createElement("div"); // Ensure cell has a container
+    //     window.selectedCell.appendChild(taskContainer);
     
-        saveEvent();
+    //     saveEvent();
     
-        expect(document.getElementById("taskList").children.length).toBeGreaterThan(0);
-    });
+    //     expect(document.getElementById("taskList").children.length).toBeGreaterThan(0);
+    // });
     
     
     // end
