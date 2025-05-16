@@ -202,9 +202,9 @@ function updateTaskList(cell) {
 
             editBtn.addEventListener("click", (event) => {
 
-                console.log(event.target.parentElement,event.target.parentElement.children.length);
-                
-                if(event.target.parentElement.children.length >=4){
+                console.log(event.target.parentElement, event.target.parentElement.children.length);
+
+                if (event.target.parentElement.children.length >= 4) {
                     return
                 }
 
@@ -459,7 +459,13 @@ const renderCalender = async (date) => {
     const loadEvents = await fetch('/api/tasks');
     eventList = await loadEvents.json();
     console.log(eventList);
-    showNotifications()
+
+    let notifs = document.querySelector("#notif-box")
+
+    if (notifs.children.length == 0) {
+        showNotifications()
+
+    }
 
 
 
