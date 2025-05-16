@@ -1,5 +1,6 @@
 language: node_js
-node:
+dist: jammy  # Targets Ubuntu 22.04
+node_js:
   # - "14"
   # - "16"
   # - "18"
