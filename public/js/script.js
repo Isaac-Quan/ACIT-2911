@@ -600,37 +600,37 @@ document.addEventListener("DOMContentLoaded", () => {
 const showNotifications = () => {
 
     // test event list
-    // const eventList = {
-    //     "2025-5": {
-    //         16: {
-    //             events: [
-    //                 {
-    //                     text: "Wizard Final",
-    //                     color: "rgba()"
-    //                 }
-    //             ]
-    //         },
-    //         17: {
-    //             events: [
-    //                 {
-    //                     text: "Tethics Final"
-    //                 }
-    //             ]
-    //         }
-    //     },
-    //     "2025-6": {
-    //         1: {
-    //             events: [
-    //                 { text: "PE Final" }
-    //             ]
-    //         },
-    //         9: {
-    //             events: [
-    //                 { text: "War Quiz" }
-    //             ]
-    //         },
-    //     }
-    // }
+    const eventList = {
+        "2025-5": {
+            16: {
+                events: [
+                    {
+                        text: "Final",
+                        color: "rgba()"
+                    }
+                ]
+            },
+            17: {
+                events: [
+                    {
+                        text: "Quiz"
+                    }
+                ]
+            }
+        },
+        "2025-6": {
+            1: {
+                events: [
+                    { text: "2911 Final" }
+                ]
+            },
+            9: {
+                events: [
+                    { text: "Test Quiz" }
+                ]
+            },
+        }
+    }
 
 
 
