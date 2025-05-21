@@ -483,7 +483,7 @@ const showNotifications = () => {
             16: {
                 events: [
                     {
-                        text: "Wizard Final",
+                        text: "Final",
                         color: "rgba()"
                     }
                 ]
@@ -491,7 +491,7 @@ const showNotifications = () => {
             17: {
                 events: [
                     {
-                        text: "Tethics Final"
+                        text: "Quiz"
                     }
                 ]
             }
@@ -499,20 +499,19 @@ const showNotifications = () => {
         "2025-6": {
             1: {
                 events: [
-                    { text: "PE Final" }
+                    { text: "2911 Final" }
                 ]
             },
             9: {
                 events: [
-                    { text: "War Quiz" }
+                    { text: "Test Quiz" }
                 ]
             },
         }
     }
-    
 
-    let modal = document.querySelector("#notifcation-modal")
-    modal.style.display ="block"
+
+
 
 
     // variable that checks events that are due in x days
@@ -520,15 +519,15 @@ const showNotifications = () => {
 
     const currentDate = new Date()
 
+
+
     let yearMonth = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
 
+    console.log(eventList);
 
-    // checks if there are notifications
-    if (typeof eventList[yearMonth] == "undefined" || Object.keys(eventList[yearMonth]).length == 0) {
-        console.log("No notifs", Object.keys(eventList).length > 0);
-        return
 
-    }
+
+
 
 
     let dueShit = []
@@ -556,6 +555,18 @@ const showNotifications = () => {
 
 
     let notifsBox = document.querySelector("#notif-box")
+
+    // checks if there are notifications
+
+    console.log(typeof eventList[yearMonth] == "undefined", dueShit.length == 0);
+
+    if (typeof eventList[yearMonth] == "undefined" || dueShit.length == 0) {
+        console.log("No notifs", Object.keys(eventList).length);
+        return
+
+    }
+    let modal = document.querySelector("#notifcation-modal")
+    modal.style.display = "block"
 
     // adding items to modal
     dueShit.forEach(course => {

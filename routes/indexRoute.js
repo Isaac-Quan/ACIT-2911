@@ -8,6 +8,10 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/home.html'));
 });
 
+router.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, '../views/register.html'));
+});
+
 router.get('/home.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/home.html'));
   });
