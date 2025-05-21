@@ -1,32 +1,13 @@
 {
   "test@gmail.com": {
     "courses": {
-      "ACIT 1420": "#",
-      "PYTHON 1515": "#",
-      "WEB 1620": "#",
-      "SQL 1630": "#",
-      "COMM 1116": "#",
-      "MATH 1310": "#",
-      "ORGB 1100": "#"
-    }
-  },
-  "testnew@gmail.com": {
-    "name": "test123",
-    "password": "test",
-    "courses": {
-      "test": "#000000"
-    }
-  },
-  "testnew123@gmail.com": {
-    "name": "test123new",
-    "password": "test",
-    "courses": {}
-  },
-  "lookatjson@gmail.com": {
-    "name": "coolupdate",
-    "password": "test",
-    "courses": {
-      "new": "#000000"
+      "ACIT 1420": "#0cfa8b",
+      "PYTHON 1515": "#0cfaca",
+      "WEB 1620": "#9ffa0c",
+      "SQL 1630": "#faf60c",
+      "COMM 1116": "#fab30c",
+      "MATH 1310": "#fa680c",
+      "ORGB 1100": "#e60cfa"
     }
   }
 }
