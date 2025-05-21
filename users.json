@@ -1,7 +1,32 @@
 {
   "test@gmail.com": {
     "courses": {
-      "ACIT 2911": "#a62ea8"
+      "ACIT 1420": "#",
+      "PYTHON 1515": "#",
+      "WEB 1620": "#",
+      "SQL 1630": "#",
+      "COMM 1116": "#",
+      "MATH 1310": "#",
+      "ORGB 1100": "#"
+    }
+  },
+  "testnew@gmail.com": {
+    "name": "test123",
+    "password": "test",
+    "courses": {
+      "test": "#000000"
+    }
+  },
+  "testnew123@gmail.com": {
+    "name": "test123new",
+    "password": "test",
+    "courses": {}
+  },
+  "lookatjson@gmail.com": {
+    "name": "coolupdate",
+    "password": "test",
+    "courses": {
+      "new": "#000000"
     }
   }
 }
